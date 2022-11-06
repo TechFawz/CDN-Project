@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const PORT = 4200;
+const PORT = 8000;
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 
@@ -9,7 +9,6 @@ app.use(bodyParser.json());
 // Without middleware
 app.post('/', async function(req, res){
     const fileName = req.body.file
-    console.log(fileName)
     const video = await DataBase.collection("videos").find({'name': fileName});
     await video.forEach(video => {
         res.status(200).json({path: video.video_path})

@@ -11,12 +11,13 @@ let REQUEST_COUNT = 0
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post('/', (req, res) => {
+app.post('/', (req, res) => {    
     REQUEST_COUNT++;
-    const file = req.body.fileName
+    const file = req.body.params.fileName
     const data = {
         "file" : file
     }
+    
     if(REQUEST_COUNT%2 == 0){
         fetch('http://localhost:8000/', {
             method: 'POST',
@@ -24,7 +25,8 @@ app.post('/', (req, res) => {
             headers: { 'Content-Type': 'application/json' }
         })
         .then(res => res.json())
-        .then((json) => {            
+        .then((json) => {         
+            console.log(json.path)
             res.sendFile(file, {root: json.path})
         }) 
         .catch(err => console.log(err));
@@ -35,7 +37,8 @@ app.post('/', (req, res) => {
             headers: { 'Content-Type': 'application/json' }
         })
         .then(res => res.json())
-        .then((json) => {            
+        .then((json) => {     
+            console.log(json.path)       
             res.sendFile(file, {root: json.path})
         })        
         .catch(err => console.log(err));
